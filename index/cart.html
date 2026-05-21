@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <head lang="en">
-    <meta charset="=UTF-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width", intial-scale="1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="cart.css">
     <title>godfirstboutique6.wordpress.com</title>
 </head>
@@ -35,25 +35,25 @@
             <td><input type="checkbox" checked> </td>
             <td><img src="image/images 3.jpeg"></td>
             <td>Men's Fashion Casual Loaf</td>
-            <td class="price">GH&#8373 350</td>
+            <td class="price">GH₵ 350</td>
             <td><input type="number" value="1" min="1" class="qty" ></td>
-            <td class="total">350</td>
+            <td class="total">GH₵ 350</td>
         </tr>
          <tr>
             <td><input type="checkbox" checked> </td>
             <td><img src="image/s2.jpg"></td>
             <td>Men's Casual Shirt</td>
-            <td class="price">GH&#8373 150</td>
+            <td class="price">GH₵ 150</td>
             <td><input type="number" value="1" min="1" class="qty"></td>
-            <td class="total">150</td>
+            <td class="total">GH₵ 150</td>
         </tr>
          <tr>
             <td><input type="checkbox" checked> </td>
             <td><img src="image/images 7.jpeg"></td>
             <td>Men's Dress Shoes</td>
-            <td class="price">GH&#8373 250</td>
+            <td class="price">GH₵ 250</td>
             <td><input type="number" value="1" min="1" class="qty"></td>
-            <td class="total">250</td>
+            <td class="total">GH₵ 250</td>
         </tr>
         </table>
         <div class="cart-total" >
@@ -61,7 +61,7 @@
             <table >
               <tr>
                 <td>Cart Subtotal</td>
-                <td>GH&#8373 750</td>
+                <td id="cart-subtotal">GH₵ 750</td>
               </tr>
               <tr>
                 <td>Shipping</td>
@@ -69,7 +69,7 @@
               </tr>
               <tr>
                 <td><strong>Total</strong></td>
-                <td><strong>GH&#8373 750</strong></td>
+                <td id="cart-total"><strong>GH₵ 750</strong></td>
               </tr>
             </table>
         </div>
@@ -145,14 +145,54 @@
         </div>
     </section>
     <script>
-        const qtyInput =document.querySelector(".qty")
-        const price =document.querySelector(".price")
-        const total =document.querySelector(".total")
-        qtyInput.addEventListener("input",function(){
-            let quantity = qtyInput.value;
-            let itemPrice = price.innerText;
-            total.innerText = quantity * itemPrice;
-        })
+      function parsePrice(value) {
+        return parseFloat(value.replace(/[^0-9.\-]+/g, "")) || 0;
+      }
+
+      function updateCartRow(row) {
+        const checkbox = row.querySelector('input[type="checkbox"]');
+        const qtyInput = row.querySelector('.qty');
+        const priceCell = row.querySelector('.price');
+        const totalCell = row.querySelector('.total');
+
+        const price = parsePrice(priceCell.textContent);
+        const quantity = Math.max(1, Number(qtyInput.value) || 1);
+        qtyInput.value = quantity;
+
+        const subtotal = checkbox.checked ? price * quantity : 0;
+        totalCell.textContent = `GH₵ ${subtotal}`;
+        row.classList.toggle('removed', !checkbox.checked);
+
+        return subtotal;
+      }
+
+      function updateCartSummary() {
+        const cartTable = document.querySelector('.cart-section > table');
+        const rows = Array.from(cartTable.querySelectorAll('tr')).slice(1);
+        let subtotal = 0;
+
+        rows.forEach(row => {
+          subtotal += updateCartRow(row);
+        });
+
+        const subtotalCell = document.getElementById('cart-subtotal');
+        const totalCell = document.getElementById('cart-total');
+        const subtotalText = `GH₵ ${subtotal}`;
+
+        if (subtotalCell) subtotalCell.textContent = subtotalText;
+        if (totalCell) totalCell.textContent = subtotalText;
+      }
+
+      document.querySelectorAll('.qty').forEach(input => {
+        input.addEventListener('input', updateCartSummary);
+      });
+
+      document.querySelectorAll('.cart-section input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', updateCartSummary);
+      });
+
+      updateCartSummary();
     </script>
 </body>
 </html>
+

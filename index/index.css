@@ -11,10 +11,14 @@ body{
     padding: 10px;
     line-height: 1.6;
 }
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
 .container {
-    width: 90%;
-    margin:  auto;
-    padding:20px
+    max-width: 1300px;
+    margin: 0 auto;
 }
         
 header{
@@ -41,14 +45,23 @@ header{
 .nav_bar{
     font-family: "poppins";
     font-size: 10px;
-    float: right;
+    display: flex;
+    justify-content: flex-end;
     list-style: none;
 }
+.nav_bar ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-end;
+    padding-left: 0;
+    margin: 0;
+}
 .nav_bar li{
-    display: inline-block;
+    display: inline-flex;
 }
 .nav_bar li a{
-    padding: 15px;
+    padding: 12px 14px;
     font-size: medium;
 }
 
@@ -70,6 +83,10 @@ header{
 }
 .cover{
     background-image:url(image/cover.jpg) ;
+    background-size:cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
     min-height: 90vh;
     width: 100%;
     background-size: cover;
@@ -78,12 +95,14 @@ header{
     padding: 40px 80px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 40px;
 }
 
 .cover-image-wrap {
-    flex: 0 0 280px;
+    height: auto;
+    width: 150px;
+    max-width: 100%;
 }
 
 .cover-image {
@@ -97,11 +116,12 @@ header{
 .cover-text {
     flex: 1;
     color: #1c0606;
+    font-size: clamp(1.5rem,3vw,2.5rem);
 }
 
 .cover-text h2 {
     margin-bottom: 24px;
-    font-size: 2.4rem;
+      font-size: clamp(1.5rem,3vw,2.5rem);
 }
 
 .cover-text h4 {
@@ -250,5 +270,58 @@ header{
     margin-top: 16px;
     font-size: 0.9rem;
     color: #3b3b3b;
+}
+@media (max-width: 900px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    padding: 20px 12px;
+    gap: 12px;
+  }
+  .brand {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .nav_bar {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .nav_bar ul {
+    justify-content: flex-start;
+  }
+  .cover {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 30px 15px;
+    min-height: auto;
+    gap: 20px;
+  }
+  .cover-image-wrap {
+    width: min(220px, 60vw);
+  }
+  .cover-text {
+    max-width: 100%;
+  }
+  .cover-text h4 {
+    font-size: clamp(1rem, 2.8vw, 1.2rem);
+  }
+  .footer-top,
+  .payment-service-group,
+  .newsletter-payment-row {
+    grid-template-columns: 1fr;
+  }
+  .newsletter-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .newsletter-form button {
+    width: 100%;
+  }
+  .payment-icons {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
 

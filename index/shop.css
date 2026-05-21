@@ -11,6 +11,11 @@ body{
     padding: 10px;
     line-height: 1.6;
 }
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
 .container {
     max-width: 1300px;
     margin: 0 auto;
@@ -30,14 +35,23 @@ header{
 .nav_bar{
     font-family: "poppins";
     font-size: 10px;
-    float: right;
+    display: flex;
+    justify-content: flex-end;
     list-style: none;
 }
+.nav_bar ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-end;
+    padding-left: 0;
+    margin: 0;
+}
 .nav_bar li{
-    display: inline-block;
+    display: inline-flex;
 }
 .nav_bar li a{
-    padding: 15px;
+    padding: 12px 14px;
     font-size: medium;
 }
 
@@ -261,6 +275,7 @@ header{
     height: 18px;
 }
 
+
 .newsletter-payment-row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -345,6 +360,65 @@ header{
     margin-top: 16px;
     font-size: 0.9rem;
     color: #3b3b3b;
+}
+
+@media (max-width: 900px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+    padding: 20px 12px;
+    gap: 12px;
+  }
+  .brand {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .nav_bar {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .nav_bar ul {
+    justify-content: flex-start;
+  }
+  .section {
+    width: auto;
+    padding: 20px;
+  }
+  .anime-grid,
+  .anime-grid1 {
+    grid-template-columns: 1fr;
+  }
+  .anime-card {
+    height: auto;
+  }
+  .card-image {
+    height: auto;
+  }
+  .card-info {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .pagination {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .footer-top,
+  .payment-service-group,
+  .newsletter-payment-row {
+    grid-template-columns: 1fr;
+  }
+  .newsletter-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .newsletter-form button {
+    width: 100%;
+  }
+  .payment-icons {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
 
 

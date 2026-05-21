@@ -72,4 +72,9 @@ function setActive(element, page){
     currentPage = page;
 }
 
+function toggleCart(button) {
+    button.classList.toggle('active');
+    button.setAttribute('aria-pressed', button.classList.contains('active'));
+}
+
 renderPages();
