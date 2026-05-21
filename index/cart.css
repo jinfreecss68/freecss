@@ -81,6 +81,19 @@ table{
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
 }
+.cart-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 10px;
+}
+.cart-table-wrapper {
+    overflow-x: auto;
+    width: 100%;
+}
+.cart-table {
+    width: 100%;
+    min-width: 720px;
+}
 tr.removed {
     opacity: 0.5;
 }
@@ -88,17 +101,23 @@ th{
     text-align: left;
     padding: 15px;
     border-bottom: 2px solid #ddd;
+    white-space: nowrap;
 }
 td{
     padding: 15px;
-    border-bottom: 1px solid#ddd;
+    border-bottom: 1px solid #ddd;
+    vertical-align: middle;
 }
 img{
     width: 70px;
+    height: auto;
+    max-width: 100%;
+    display: block;
 }
 input{
     width: 50px;
     padding: 5px;
+    max-width: 100%;
 }
 .cart-total{
     width: 400px;
@@ -106,6 +125,63 @@ input{
     padding: 20px;
     font-family: Arial, Helvetica, sans-serif;
 }
+@media (max-width: 900px) {
+    .cart-table {
+        min-width: 100%;
+    }
+}
+@media (max-width: 720px) {
+    .cart-table-wrapper {
+        overflow-x: hidden;
+    }
+    .cart-table,
+    .cart-table thead,
+    .cart-table tbody,
+    .cart-table tr,
+    .cart-table th,
+    .cart-table td {
+        display: block;
+        width: 100%;
+    }
+    .cart-table thead {
+        display: none;
+    }
+    .cart-table tr {
+        margin-bottom: 18px;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        padding: 12px;
+    }
+    .cart-table td {
+        border: none;
+        border-bottom: 1px solid #eee;
+        padding: 12px 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .cart-table td:last-child {
+        border-bottom: 0;
+    }
+    .cart-table td:before {
+        content: attr(data-label);
+        font-weight: 700;
+        margin-right: 10px;
+        flex: 0 0 40%;
+        color: #333;
+    }
+    .cart-table td > * {
+        flex: 1 1 auto;
+    }
+    .cart-table td img {
+        width: 60px;
+        height: auto;
+    }
+    .cart-total {
+        width: 100%;
+    }
+}
+
 .cart-total h2{
     margin-bottom: 20px;
 }
