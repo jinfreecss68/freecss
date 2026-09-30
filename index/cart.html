@@ -35,45 +35,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td data-label="Add/Remove">
-                            <button class="cart-item-btn" aria-label="Add to cart" title="Click to add/remove from cart"></button>
-                        </td>
-                        <td data-label="Item"><img src="image/images 3.jpeg" alt="Men's Fashion Casual Loaf"></td>
-                        <td data-label="Product">Men's Fashion Casual Loaf</td>
-                        <td data-label="Price" class="price">GH₵ 350</td>
-                        <td data-label="Quantity"><input type="number" value="1" min="1" class="qty"></td>
-                        <td data-label="Subtotal" class="total">GH₵ 350</td>
-                    </tr>
-                    <tr>
-                        <td data-label="Add/Remove">
-                            <button class="cart-item-btn" aria-label="Add to cart" title="Click to add/remove from cart"></button>
-                        </td>
-                        <td data-label="Item"><img src="image/s2.jpg" alt="Men's Casual Shirt"></td>
-                        <td data-label="Product">Men's Casual Shirt</td>
-                        <td data-label="Price" class="price">GH₵ 150</td>
-                        <td data-label="Quantity"><input type="number" value="1" min="1" class="qty"></td>
-                        <td data-label="Subtotal" class="total">GH₵ 150</td>
-                    </tr>
-                    <tr>
-                        <td data-label="Add/Remove">
-                            <button class="cart-item-btn" aria-label="Add to cart" title="Click to add/remove from cart"></button>
-                        </td>
-                        <td data-label="Item"><img src="image/images 7.jpeg" alt="Men's Dress Shoes"></td>
-                        <td data-label="Product">Men's Dress Shoes</td>
-                        <td data-label="Price" class="price">GH₵ 250</td>
-                        <td data-label="Quantity"><input type="number" value="1" min="1" class="qty"></td>
-                        <td data-label="Subtotal" class="total">GH₵ 250</td>
-                    </tr>
+                    <!-- Items will be added here dynamically -->
                 </tbody>
             </table>
         </div>
-        <div class="cart-total" >
+        <div class="cart-empty-message">
+            <p>Your cart is empty. Start shopping to add items!</p>
+        </div>
+        <div class="cart-total" id="cart-total-section" style="display: none;">
             <h2>Cart Total</h2>
             <table >
               <tr>
                 <td>Cart Subtotal</td>
-                <td id="cart-subtotal">GH₵ 750</td>
+                <td id="cart-subtotal">GH₵ 0</td>
               </tr>
               <tr>
                 <td>Shipping</td>
@@ -81,11 +55,11 @@
               </tr>
               <tr>
                 <td><strong>Total</strong></td>
-                <td id="cart-total"><strong>GH₵ 750</strong></td>
+                <td id="cart-total"><strong>GH₵ 0</strong></td>
               </tr>
             </table>
         </div>
-        <div class="cart-summary">
+        <div class="cart-summary" id="checkout-section" style="display: none;">
             <button class="checkout-button">Proceed to Checkout</button>
         </div>
     </section>
@@ -130,10 +104,10 @@
                         <svg viewBox="0 0 36 24" xmlns="http://www.w3.org/2000/svg"><path fill="#1A1F71" d="M0 0h36v24H0z"/><path fill="#fff" d="M6.06 7.56h1.92l1.14 8.28H7.2l-.14-1.26H4.68l-.12.98H2.[...]
                     </span>
                     <span class="payment-icon" aria-label="MasterCard">
-                        <svg viewBox="0 0 48 24" xmlns="http://www.w3.org/2000/svg"><circle cx="18" cy="12" r="10" fill="#ff5f00"/><circle cx="30" cy="12" r="10" fill="#eb001b"/><path d="M24 12a10.01 [...]
+                        <svg viewBox="0 0 48 24" xmlns="http://www.w3.org/2000/svg"><circle cx="18" cy="12" r="10" fill="#ff5f00"/><circle cx="30" cy="12" r="10" fill="#eb001b"/><path d="M24 12a1[...]
                     </span>
                     <span class="payment-icon" aria-label="PayPal">
-                        <svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="60" rx="10" fill="#003087"/><path d="M22.5 44.8l4.7-29.4h11.1l-4.7 29.4H22.5zm26.2-29.4h-[...]
+                        <svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="60" rx="10" fill="#003087"/><path d="M22.5 44.8l4.7-29.4h11.1l-4.7 29.4H22.5zm26.2-2[...]
                     </span>
                 </div>
             </div>
@@ -157,35 +131,90 @@
         </div>
     </section>
     <script>
+      // Sample cart items data - in a real app, this would come from localStorage or API
+      const cartItems = [
+        { id: 1, image: 'image/images 3.jpeg', name: "Men's Fashion Casual Loaf", price: 350 },
+        { id: 2, image: 'image/s2.jpg', name: "Men's Casual Shirt", price: 150 },
+        { id: 3, image: 'image/images 7.jpeg', name: "Men's Dress Shoes", price: 250 }
+      ];
+
+      const cartState = {};
+
       function parsePrice(value) {
         return parseFloat(value.replace(/[^0-9.\-]+/g, "")) || 0;
       }
 
-      function updateCartRow(row) {
-        const btn = row.querySelector('.cart-item-btn');
-        const qtyInput = row.querySelector('.qty');
-        const priceCell = row.querySelector('.price');
-        const totalCell = row.querySelector('.total');
+      function renderCartTable() {
+        const tbody = document.querySelector('.cart-table tbody');
+        const emptyMessage = document.querySelector('.cart-empty-message');
+        const totalSection = document.getElementById('cart-total-section');
+        const checkoutSection = document.getElementById('checkout-section');
+        
+        // Filter only items that are in cart
+        const itemsInCart = cartItems.filter(item => cartState[item.id]);
+        
+        tbody.innerHTML = '';
+        
+        if (itemsInCart.length === 0) {
+          emptyMessage.style.display = 'block';
+          totalSection.style.display = 'none';
+          checkoutSection.style.display = 'none';
+          return;
+        }
+        
+        emptyMessage.style.display = 'none';
+        totalSection.style.display = 'block';
+        checkoutSection.style.display = 'block';
 
-        const price = parsePrice(priceCell.textContent);
-        const quantity = Math.max(1, Number(qtyInput.value) || 1);
-        qtyInput.value = quantity;
+        itemsInCart.forEach(item => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td data-label="Add/Remove">
+              <button class="cart-item-btn active" data-item-id="${item.id}" aria-label="Remove from cart" title="Click to add/remove from cart"></button>
+            </td>
+            <td data-label="Item"><img src="${item.image}" alt="${item.name}"></td>
+            <td data-label="Product">${item.name}</td>
+            <td data-label="Price" class="price">GH₵ ${item.price}</td>
+            <td data-label="Quantity"><input type="number" value="1" min="1" class="qty" data-item-id="${item.id}"></td>
+            <td data-label="Subtotal" class="total">GH₵ ${item.price}</td>
+          `;
+          tbody.appendChild(row);
+        });
 
-        const isInCart = btn.classList.contains('active');
-        const subtotal = isInCart ? price * quantity : 0;
-        totalCell.textContent = `GH₵ ${subtotal}`;
-        row.classList.toggle('removed', !isInCart);
+        // Add event listeners to newly created buttons and inputs
+        document.querySelectorAll('.cart-item-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const itemId = parseInt(btn.getAttribute('data-item-id'));
+            cartState[itemId] = false;
+            renderCartTable();
+            updateCartSummary();
+          });
+        });
 
-        return subtotal;
+        document.querySelectorAll('.qty').forEach(input => {
+          input.addEventListener('input', updateCartSummary);
+        });
+
+        updateCartSummary();
       }
 
       function updateCartSummary() {
-        const cartTable = document.querySelector('.cart-section .cart-table');
-        const rows = Array.from(cartTable.querySelectorAll('tbody tr'));
+        const rows = document.querySelectorAll('.cart-table tbody tr');
         let subtotal = 0;
 
         rows.forEach(row => {
-          subtotal += updateCartRow(row);
+          const qtyInput = row.querySelector('.qty');
+          const priceCell = row.querySelector('.price');
+          const totalCell = row.querySelector('.total');
+
+          const price = parsePrice(priceCell.textContent);
+          const quantity = Math.max(1, Number(qtyInput.value) || 1);
+          qtyInput.value = quantity;
+
+          const itemSubtotal = price * quantity;
+          totalCell.textContent = `GH₵ ${itemSubtotal}`;
+          subtotal += itemSubtotal;
         });
 
         const subtotalCell = document.getElementById('cart-subtotal');
@@ -196,24 +225,19 @@
         if (totalCell) totalCell.textContent = subtotalText;
       }
 
-      // Add event listeners to cart item buttons
-      document.querySelectorAll('.cart-item-btn').forEach(btn => {
-        // Initialize with active state (checked by default)
-        btn.classList.add('active');
-        
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          btn.classList.toggle('active');
-          updateCartSummary();
-        });
-      });
+      // Add items from shop to cart (this would be called from shop.html)
+      function addItemToCart(itemId) {
+        cartState[itemId] = true;
+        renderCartTable();
+      }
 
-      // Add event listeners to quantity inputs
-      document.querySelectorAll('.qty').forEach(input => {
-        input.addEventListener('input', updateCartSummary);
-      });
+      function removeItemFromCart(itemId) {
+        cartState[itemId] = false;
+        renderCartTable();
+      }
 
-      updateCartSummary();
+      // Initialize - cart is empty by default
+      renderCartTable();
     </script>
 </body>
 </html>
