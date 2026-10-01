@@ -130,13 +130,7 @@ header {
     color: #ffa500;
 }
 
-.anime-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(clamp(150px, 40vw, 220px), 1fr));
-    gap: clamp(15px, 3vw, 25px);
-    padding: 0 clamp(10px, 2vw, 20px);
-}
-
+.anime-grid,
 .anime-grid1 {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(clamp(150px, 40vw, 220px), 1fr));
@@ -195,9 +189,15 @@ header {
 .card-info {
     display: flex;
     justify-content: space-between;
-    color: #aaa;
+    align-items: center;
+    color: #1c0606;
     font-size: clamp(0.85rem, 1.5vw, 1rem);
     margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.card-info span:first-child {
+    color: #1c0606;
 }
 
 .size {
@@ -208,22 +208,31 @@ header {
 }
 
 .size span {
-    font-size: clamp(0.85rem, 1.5vw, 1rem);
+    font-size: clamp(0.75rem, 1.4vw, 0.9rem);
     display: flex;
-    gap: 5px;
+    gap: 6px;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+
+.size span strong {
+    font-size: 0.75rem;
+    white-space: nowrap;
 }
 
 .size input,
 .size select {
-    flex: 1 1 clamp(40px, 15vw, 100px);
-    padding: clamp(6px, 1vw, 10px);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    font-size: clamp(0.85rem, 1.5vw, 1rem);
+    width: clamp(55px, 12vw, 82px);
+    min-width: 55px;
+    max-width: 82px;
+    padding: clamp(4px, 0.8vw, 7px) clamp(5px, 1vw, 8px);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    font-size: clamp(0.7rem, 1.1vw, 0.8rem);
     font-family: inherit;
-    min-width: clamp(40px, 15vw, 100px);
+    background: rgba(255, 255, 255, 0.85);
+    line-height: 1.2;
 }
 
 .cart-btn {
@@ -397,6 +406,8 @@ header {
     border-radius: 8px;
     font-size: clamp(0.85rem, 1.5vw, 1rem);
     font-family: inherit;
+    width: 170px;
+    max-width: 180px;
 }
 
 .newsletter-form button {
@@ -496,7 +507,6 @@ header {
     color: #3b3b3b;
 }
 
-/* Tablet (768px - 900px) */
 @media (max-width: 900px) {
     header {
         flex-direction: column;
@@ -543,6 +553,7 @@ header {
     .card-info {
         flex-direction: column;
         gap: 8px;
+        align-items: flex-start;
     }
 
     .size {
@@ -550,13 +561,14 @@ header {
     }
 
     .size span {
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
     }
 
     .size input,
     .size select {
-        width: 100%;
-        flex: 1 1 100%;
+        width: 70px;
+        max-width: 70px;
+        min-width: 70px;
     }
 
     .pagination {
@@ -577,6 +589,7 @@ header {
     .newsletter-form input,
     .newsletter-form button {
         width: 100%;
+        max-width: none;
     }
 
     .payment-icons {
@@ -585,7 +598,6 @@ header {
     }
 }
 
-/* Mobile (480px - 767px) */
 @media (max-width: 767px) {
     body {
         padding: 8px;
@@ -655,9 +667,11 @@ header {
 
     .size input,
     .size select {
-        width: 100%;
-        padding: 6px 8px;
-        font-size: 0.8rem;
+        width: 64px;
+        max-width: 64px;
+        min-width: 64px;
+        padding: 5px 6px;
+        font-size: 0.72rem;
     }
 
     .pagination {
@@ -688,6 +702,7 @@ header {
     .newsletter-form input,
     .newsletter-form button {
         width: 100%;
+        max-width: none;
         font-size: 0.9rem;
     }
 
@@ -701,7 +716,6 @@ header {
     }
 }
 
-/* Small Mobile (320px - 479px) */
 @media (max-width: 479px) {
     body {
         padding: 5px;
@@ -771,13 +785,16 @@ header {
 
     .size span {
         font-size: 0.7rem;
+        gap: 4px;
     }
 
     .size input,
     .size select {
-        width: 100%;
-        padding: 5px 6px;
-        font-size: 0.7rem;
+        width: 56px;
+        max-width: 56px;
+        min-width: 56px;
+        padding: 4px 5px;
+        font-size: 0.68rem;
     }
 
     .cart-btn {
@@ -850,7 +867,6 @@ header {
     }
 }
 
-/* Large Desktop (1400px and above) */
 @media (min-width: 1400px) {
     .container {
         padding: 0 30px;
