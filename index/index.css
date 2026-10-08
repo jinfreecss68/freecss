@@ -227,28 +227,43 @@ header {
     align-items: center;
 }
 
-.newsletter-form input {
-    flex: 1 1 clamp(100px, 50vw, 180px);
-    padding: clamp(8px, 1.5vw, 10px) clamp(10px, 1.5vw, 12px);
+.newsletter-form input[type="email"] {
+    flex: 1;
+    min-width: clamp(130px, 28vw, 170px);
+    width: 160px;
+    max-width: 170px;
+    padding: clamp(7px, 1.2vw, 10px) clamp(10px, 1.5vw, 12px);
     border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    font-size: clamp(0.85rem, 1.5vw, 1rem);
-    font-family: inherit;
+    border-radius: 6px;
+    font-family: "poppins", sans-serif;
+    font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+    background: rgba(255, 255, 255, 0.9);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.newsletter-form input[type="email"]:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 6px rgba(76, 175, 80, 0.25);
 }
 
 .newsletter-form button {
-    padding: clamp(8px, 1.5vw, 10px) clamp(12px, 2vw, 16px);
+    padding: clamp(7px, 1.2vw, 10px) clamp(14px, 2vw, 16px);
     background: #4CAF50;
     color: #fff;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
+    font-family: "poppins", sans-serif;
+    font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+    font-weight: 600;
     cursor: pointer;
-    font-size: clamp(0.85rem, 1.5vw, 1rem);
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, transform 0.2s ease;
+    white-space: nowrap;
 }
 
 .newsletter-form button:hover {
     background: #45a049;
+    transform: scale(1.02);
 }
 
 .payment-service-group {
